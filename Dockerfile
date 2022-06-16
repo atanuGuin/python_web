@@ -1,6 +1,5 @@
 # Docker file for Image Deployment
 FROM ubuntu:latest
-LABEL maintainer=AtanuGuin
 RUN apt-get update -y
 RUN apt-get install -y python3-pip python-dev-is-python3 build-essential
 COPY . /app

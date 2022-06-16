@@ -69,7 +69,7 @@ def runApp(containerName, tag, dockerHubUser, httpPort){
 
 def runGKE(){
 
-    sh "kubectl apply -f yaml/python-app-zeus.yaml"
+    sh "kubectl apply -f yaml/python-app-deployment.yaml"
     sh "kubectl apply -f yaml/python-app-service.yaml"
     sh "kubectl get pods -o wide"
     sh "kubectl get services -o wide"
