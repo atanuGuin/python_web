@@ -63,8 +63,8 @@ def pushToImage(containerName, tag, dockerUser, dockerPassword){
 
 def runApp(containerName, tag, dockerHubUser, httpPort){
     sh "docker pull $dockerHubUser/$containerName"
-//     sh "docker run -d --rm -p $httpPort:5000 --name $containerName $dockerHubUser/$containerName:$tag"
-//     echo "Application started on port: ${httpPort} (http)"
+    sh "docker run -d --rm -p $httpPort:8000 --name $containerName $dockerHubUser/$containerName:$tag"
+    echo "Application started on port: ${httpPort} (http)"
 }
 
 def runEKS(){
