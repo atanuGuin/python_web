@@ -9,7 +9,7 @@ spec:
   strategy:
     type:
     rollingUpdate:
-      maxUnavailable: 0
+      maxUnavailable: 1
       maxSurge: 1
   selector:
     matchLabels:
@@ -25,7 +25,3 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8000
-        readinessProbe:
-          httpGet:
-            path: /index.html
-            port: 8000
