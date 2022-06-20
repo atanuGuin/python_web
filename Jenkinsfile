@@ -49,7 +49,7 @@ def imagePrune(containerName){
 def imageBuild(containerName, tag){
     echo "Images Present :- "
     sh "docker images"
-    sh "docker build -f Dockerfile  -t $containerName:$tag ."
+    sh "docker build -t $containerName:$tag  -t $containerName ."
     sh "docker images"
     echo "Image build complete"
 }
@@ -69,9 +69,9 @@ def runApp(containerName, tag, dockerHubUser, httpPort){
 
 def runEKS(){
     echo "Kubernetes pods deployment starting..."
-//     sh "kubectl apply -f yaml/python-app-deployment.yaml"
-//     sh "kubectl apply -f yaml/python-app-service.yaml"
-    sh "kubectl apply -f yaml/deployment.yaml"
+    sh "kubectl apply -f yaml/python-app-deployment.yaml"
+    sh "kubectl apply -f yaml/python-app-service.yaml"
+//     sh "kubectl apply -f yaml/deployment.yaml"
     sh "kubectl get pods -o wide"
     sh "kubectl get services -o wide"
 }
