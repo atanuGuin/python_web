@@ -20,18 +20,18 @@ node {
         imageBuild(CONTAINER_NAME, CONTAINER_TAG)
     }
 
-    stage('Push to Docker Registry'){
-        withCredentials([usernamePassword(credentialsId: 'dockerHubAccount', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-            pushToImage(CONTAINER_NAME, CONTAINER_TAG, USERNAME, PASSWORD)
-        }
-    }
+//     stage('Push to Docker Registry'){
+//         withCredentials([usernamePassword(credentialsId: 'dockerHubAccount', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+//             pushToImage(CONTAINER_NAME, CONTAINER_TAG, USERNAME, PASSWORD)
+//         }
+//     }
 
 //     stage('Run App'){
 //         runApp(CONTAINER_NAME, CONTAINER_TAG, DOCKER_HUB_USER, HTTP_PORT)
 //     }
 
     stage('Run in EKS'){
-        runGKE()
+        runEKS()
     }
 }
 
@@ -67,7 +67,7 @@ def imageBuild(containerName, tag){
 //     echo "Application started on port: ${httpPort} (http)"
 // }
 
-def runGKE(){
+def runEKS(){
     echo "Kubernetes pods deployment starting..."
 //     sh "kubectl apply -f yaml/python-app-deployment.yaml"
 //     sh "kubectl apply -f yaml/python-app-service.yaml"
