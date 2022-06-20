@@ -23,7 +23,7 @@ spec:
         name: webapp
         imagePullPolicy: Always
         ports:
-        - containerPort: 8000
+        - containerPort: 5000
 
 ---
 apiVersion: v1
@@ -32,9 +32,9 @@ metadata:
   name: webapp
 spec:
   ports:
-  - port: 80
+  - port: 8000
     protocol: TCP
-    targetPort: 8000
+    targetPort: 5000
   selector:
     app: webapp
   type: LoadBalancer
