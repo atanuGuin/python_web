@@ -7,9 +7,9 @@ metadata:
 spec:
   replicas: 2
   strategy:
-    type: RollingUpdate
+    type: Recreate
     rollingUpdate:
-      maxUnavailable: 0
+      maxUnavailable: 1
       maxSurge: 1
   selector:
     matchLabels:
@@ -22,6 +22,6 @@ spec:
       containers:
       - image: atanu92/webapp:latest
         name: webapp
-        imagePullPolicy: Never
+        imagePullPolicy: Always
         ports:
         - containerPort: 8000
