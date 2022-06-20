@@ -34,6 +34,6 @@ spec:
       containers:
       - name: webapp
         image: atanu92/webapp:latest
-        imagePullPolicy: Never
+        imagePullPolicy: Always
         ports:
         - containerPort: 8000
