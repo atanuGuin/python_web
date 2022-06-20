@@ -26,9 +26,9 @@ node {
         }
     }
 
-//     stage('Run App'){
-//         runApp(CONTAINER_NAME, CONTAINER_TAG, DOCKER_HUB_USER, HTTP_PORT)
-//     }
+    stage('Run App'){
+        runApp(CONTAINER_NAME, CONTAINER_TAG, DOCKER_HUB_USER, HTTP_PORT)
+    }
 
     stage('Run in EKS'){
         runEKS()
@@ -61,11 +61,11 @@ def pushToImage(containerName, tag, dockerUser, dockerPassword){
     echo "Image push complete"
 }
 
-// def runApp(containerName, tag, dockerHubUser, httpPort){
-//     sh "docker pull $dockerHubUser/$containerName"
+def runApp(containerName, tag, dockerHubUser, httpPort){
+    sh "docker pull $dockerHubUser/$containerName"
 //     sh "docker run -d --rm -p $httpPort:5000 --name $containerName $dockerHubUser/$containerName:$tag"
 //     echo "Application started on port: ${httpPort} (http)"
-// }
+}
 
 def runEKS(){
     echo "Kubernetes pods deployment starting..."
