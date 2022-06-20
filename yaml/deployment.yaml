@@ -7,8 +7,8 @@ spec:
     app: webapp
   ports:
   - protocol: "TCP"
-    port: 80
-    targetPort: 5001
+    port: 6000
+    targetPort: 4999
   type: LoadBalancer
 
 ---
@@ -31,4 +31,4 @@ spec:
         image: webapp:latest
         imagePullPolicy: Never
         ports:
-        - containerPort: 5001
+        - containerPort: 4999
