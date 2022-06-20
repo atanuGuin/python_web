@@ -20,7 +20,7 @@ spec:
         app: webapp
     spec:
       containers:
-      - image: "atanu92/portfolio"
-        name: portfolio
+      - image: atanu92/webapp:latest
+        name: webapp
         ports:
         - containerPort: 8000

@@ -1,4 +1,4 @@
-def CONTAINER_NAME="portfolio"
+def CONTAINER_NAME="webapp"
 def CONTAINER_TAG="latest"
 // Update Docker hub User Account Details over here
 def DOCKER_HUB_USER="atanu92"
@@ -8,7 +8,7 @@ def STOP_C="docker ps -a -q"
 node {
 
     stage('Checkout') {
-    checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/atanuGuin/python_website.git']]])
+    checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/atanuGuin/python_web.git']]])
 
     }
 
@@ -26,11 +26,11 @@ node {
         }
     }
 
-    stage('Run App'){
-        runApp(CONTAINER_NAME, CONTAINER_TAG, DOCKER_HUB_USER, HTTP_PORT)
-    }
+//     stage('Run App'){
+//         runApp(CONTAINER_NAME, CONTAINER_TAG, DOCKER_HUB_USER, HTTP_PORT)
+//     }
 
-    stage('Run in GKE App'){
+    stage('Run in EKS'){
         runGKE()
     }
 }
@@ -61,11 +61,11 @@ def pushToImage(containerName, tag, dockerUser, dockerPassword){
     echo "Image push complete"
 }
 
-def runApp(containerName, tag, dockerHubUser, httpPort){
-    sh "docker pull $dockerHubUser/$containerName"
+// def runApp(containerName, tag, dockerHubUser, httpPort){
+//     sh "docker pull $dockerHubUser/$containerName"
 //     sh "docker run -d --rm -p $httpPort:5000 --name $containerName $dockerHubUser/$containerName:$tag"
 //     echo "Application started on port: ${httpPort} (http)"
-}
+// }
 
 def runGKE(){
     echo "Kubernetes pods deployment starting..."
