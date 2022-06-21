@@ -1,8 +1,6 @@
 def CONTAINER_NAME="webapp"
 def CONTAINER_TAG="latest"
-// Update Docker hub User Account Details over here
 def DOCKER_HUB_USER="atanu92"
-def HTTP_PORT="80"
 def STOP_C="docker ps -a -q"
 
 node {
@@ -10,10 +8,6 @@ node {
     stage('Checkout') {
     checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/atanuGuin/python_web.git']]])
 
-    }
-
-    stage("Remove stopped containers"){
-        imagePrune(CONTAINER_NAME)
     }
 
     stage('Image Build, Multiple Tag'){
@@ -27,23 +21,8 @@ node {
     }
 
     stage('Run App'){
-        runApp(CONTAINER_NAME, CONTAINER_TAG, DOCKER_HUB_USER, HTTP_PORT)
+        runApp(CONTAINER_NAME, DOCKER_HUB_USER)
     }
-
-    stage('Run in EKS'){
-        runEKS()
-    }
-}
-
-def imagePrune(containerName){
-    try {
-        echo "Removing unused containers :- "
-        sh "docker stop $containerName"
-        sh "docker system prune -f"
-        sh "docker image prune -f"
-        sh "docker container ls"
-        
-    } catch(error){}
 }
 
 def imageBuild(containerName, tag){
@@ -61,17 +40,11 @@ def pushToImage(containerName, tag, dockerUser, dockerPassword){
     echo "Image push complete"
 }
 
-def runApp(containerName, tag, dockerHubUser, httpPort){
+def runApp(containerName, dockerHubUser){
     sh "docker pull $dockerHubUser/$containerName"
-//     sh "docker run -d --rm -p $httpPort:8000 --name $containerName $dockerHubUser/$containerName:$tag"
-//     echo "Application started on port: ${httpPort} (http)"
-}
-
-def runEKS(){
     echo "Kubernetes pods deployment starting..."
-//     sh "kubectl apply -f yaml/python-app-deployment.yaml"
-//     sh "kubectl apply -f yaml/python-app-service.yaml"
     sh "kubectl apply -f yaml/deployment.yaml"
-//     sh "kubectl get pods -o wide"
-//     sh "kubectl get services -o wide"
+    sh "kubectl get pods -o wide"
+    sh "kubectl get services -o wide"
+
 }
