@@ -1,6 +1,6 @@
 def CONTAINER_NAME="webapp"
 def CONTAINER_TAG="latest"
-def DOCKER_HUB_USER="atanu92"
+def ECR_USER="595977377347.dkr.ecr.us-east-1.amazonaws.com"
 def STOP_C="docker ps -a -q"
 
 node {
@@ -14,14 +14,12 @@ node {
         imageBuild(CONTAINER_NAME, CONTAINER_TAG)
     }
 
-    stage('Push to Docker Registry'){
-        withCredentials([usernamePassword(credentialsId: 'dockerHubAccount', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-            pushToImage(CONTAINER_NAME, CONTAINER_TAG, USERNAME, PASSWORD)
-        }
+    stage('Push to ECR Repository'){
+            pushToImage(CONTAINER_NAME, CONTAINER_TAG, ECR_USER)
     }
 
     stage('Run App'){
-        runApp(CONTAINER_NAME, DOCKER_HUB_USER)
+        runApp(CONTAINER_NAME, ECR_USER)
     }
 }
 
@@ -33,15 +31,14 @@ def imageBuild(containerName, tag){
     echo "Image build complete"
 }
 
-def pushToImage(containerName, tag, dockerUser, dockerPassword){
-    sh "docker login -u $dockerUser -p $dockerPassword"
-    sh "docker tag $containerName:$tag $dockerUser/$containerName:$tag"
-    sh "docker push $dockerUser/$containerName:$tag"
+def pushToImage(containerName, tag, ecrUser){
+    sh "docker tag $containerName:$tag $ecrUser/$containerName:$tag"
+    sh "docker push $ecrUser/$containerName:$tag"
     echo "Image push complete"
 }
 
-def runApp(containerName, dockerHubUser){
-    sh "docker pull $dockerHubUser/$containerName"
+def runApp(containerName, ecrUser){
+    sh "docker pull $ecrUser/$containerName"
     echo "Kubernetes pods deployment starting..."
     sh "kubectl apply -f yaml/deployment.yaml"
     sh "kubectl get pods -o wide"
