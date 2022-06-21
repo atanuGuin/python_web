@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: webapp
 spec:
-  replicas: 0
+  replicas: 1
 #  strategy:
 #    type:
 #    rollingUpdate:
