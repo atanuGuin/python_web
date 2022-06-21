@@ -30,9 +30,9 @@ node {
         runApp(CONTAINER_NAME, CONTAINER_TAG, DOCKER_HUB_USER, HTTP_PORT)
     }
 
-//     stage('Run in EKS'){
-//         runEKS()
-//     }
+    stage('Run in EKS'){
+        runEKS()
+    }
 }
 
 def imagePrune(containerName){
@@ -63,15 +63,15 @@ def pushToImage(containerName, tag, dockerUser, dockerPassword){
 
 def runApp(containerName, tag, dockerHubUser, httpPort){
     sh "docker pull $dockerHubUser/$containerName"
-    sh "docker run -d --rm -p $httpPort:8000 --name $containerName $dockerHubUser/$containerName:$tag"
-    echo "Application started on port: ${httpPort} (http)"
+//     sh "docker run -d --rm -p $httpPort:8000 --name $containerName $dockerHubUser/$containerName:$tag"
+//     echo "Application started on port: ${httpPort} (http)"
 }
 
 def runEKS(){
     echo "Kubernetes pods deployment starting..."
 //     sh "kubectl apply -f yaml/python-app-deployment.yaml"
 //     sh "kubectl apply -f yaml/python-app-service.yaml"
-//     sh "kubectl apply -f yaml/deployment.yaml"
+    sh "kubectl apply -f yaml/deployment.yaml"
 //     sh "kubectl get pods -o wide"
 //     sh "kubectl get services -o wide"
 }
