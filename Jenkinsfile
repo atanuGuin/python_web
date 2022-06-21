@@ -71,7 +71,7 @@ def runEKS(){
     echo "Kubernetes pods deployment starting..."
 //     sh "kubectl apply -f yaml/python-app-deployment.yaml"
 //     sh "kubectl apply -f yaml/python-app-service.yaml"
-    sh "kubectl create -f yaml/deployment.yaml"
+    sh "kubectl apply -f yaml/deployment.yaml"
     sh "kubectl get pods -o wide"
     sh "kubectl get services -o wide"
 }
